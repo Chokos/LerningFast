@@ -1,6 +1,6 @@
-import type {todo} from "../types/todo.ts";
+import type {Todo} from "../types/todo.ts";
 
-export const dummyData :todo[] = [
+export const dummyData :Todo[] = [
     {
         id:1,
         title:"TITLE 1",

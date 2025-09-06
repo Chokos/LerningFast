@@ -1,11 +1,12 @@
 import {dummyData} from "./data/todos.ts";
-import Todoitem from "./componets/Todoitem.tsx";
 import {useState} from "react";
 import AddTodoForm from "./componets/AddTodoForm.tsx";
+import TodoList from "./componets/TodoList.tsx";
+import type { Todo } from "./types/todo";
 
 
 function App() {
-    const [todos, setTodos ]= useState(dummyData);
+    const [todos, setTodos ]= useState<Todo[]>(dummyData);
 
     function setCompleted(id:number,completed:boolean){
        setTodos((prevTodos)=>
@@ -22,27 +23,20 @@ function App() {
             ...prevTodos //if i want to add the item after i have to put all the setTodos after prevTodos
         ])
     }
+    function deleteTodo(id:number){
+        setTodos((prevTodos)=>prevTodos.filter(todo=>todo.id !== id));
+    }
+
 
     return (
-        <main className="py-10 h-screen space-y-5">
+        <main className="py-10 h-screen space-y-5 overflow-y-auto">
           <h2 className = "font-bold text-3xl text-center" > LEARNING</h2>
             <div className="max-w-lg mx-auto bg-slate-100 rounded-md p-5 space-y-6">
-                <AddTodoForm
-                    onSubmit={addTodo}
-
-                />
-                <div className ="space-y-2">
-                    {todos.map(todo =>(
-                        <Todoitem
-                            key={todo.id}
-                            todo={todo}
-                            onComplete={setCompleted}
-                        />
-                    ))}
-                </div>
+                <AddTodoForm onSubmit={addTodo}/>
+                <TodoList todos={todos} onCompleted={setCompleted}  onDelete={deleteTodo}/>
             </div>
         </main>
       );
     }
 
-    export default App;
+    export default App;// have an error message here i can not find wtf it is need to do a research on monday

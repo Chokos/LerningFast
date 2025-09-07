@@ -27,7 +27,7 @@ export default  function  TodoList({ todos, onCompleted, onDelete }: TodoListPro
                 />
             ))}
         </div>
-            {todos.length === 0 && (
+            {todos.length === 0 && (//rendered conditionaly
                 <p className="text-center text-sm text-red-500">
                     no TODOS YET
                 </p>

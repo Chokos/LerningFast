@@ -3,6 +3,7 @@ import {useState} from "react";
 import AddTodoForm from "./componets/AddTodoForm.tsx";
 import TodoList from "./componets/TodoList.tsx";
 import type { Todo } from "./types/todo";
+import TodoSummary from "./componets/TodoSummary.tsx";
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
     function addTodo(title:string){
         setTodos((prevTodos) => [
             {
-                id: prevTodos.length+1, title,completed:false
+                id: Date.now(), title,completed:false // i do not have to worry for wrong deletion if i am working on proper database but the Date.now() is a temporary solution
             },
             ...prevTodos //if i want to add the item after i have to put all the setTodos after prevTodos
         ])
@@ -27,6 +28,9 @@ function App() {
         setTodos((prevTodos)=>prevTodos.filter(todo=>todo.id !== id));
     }
 
+    function deleteAllcompletedTodos(){
+        setTodos((prevTodos)=>prevTodos.filter(todo=> !todo.completed));
+    }
 
     return (
         <main className="py-10 h-screen space-y-5 overflow-y-auto">
@@ -35,6 +39,7 @@ function App() {
                 <AddTodoForm onSubmit={addTodo}/>
                 <TodoList todos={todos} onCompleted={setCompleted}  onDelete={deleteTodo}/>
             </div>
+            <TodoSummary todos={todos} deleteAllcompleted={deleteAllcompletedTodos}/>
         </main>
       );
     }

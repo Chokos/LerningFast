@@ -1,36 +1,18 @@
-import {dummyData} from "./data/todos.ts";
-import {useState} from "react";
 import AddTodoForm from "./componets/AddTodoForm.tsx";
 import TodoList from "./componets/TodoList.tsx";
-import type { Todo } from "./types/todo";
 import TodoSummary from "./componets/TodoSummary.tsx";
+import useTodos from "./hooks/useTodos.ts";
 
 
 function App() {
-    const [todos, setTodos ]= useState<Todo[]>(dummyData);
+    const{
+        todos,
+        addTodo,
+        setCompleted,
+        deleteTodo,
+        deleteAllcompletedTodos,
 
-    function setCompleted(id:number,completed:boolean){
-       setTodos((prevTodos)=>
-           prevTodos.map(todo =>
-               (todo.id === id ? {...todo,completed }:todo)) // returns a completly new array!!
-       );
-    }
-
-    function addTodo(title:string){
-        setTodos((prevTodos) => [
-            {
-                id: Date.now(), title,completed:false // i do not have to worry for wrong deletion if i am working on proper database but the Date.now() is a temporary solution
-            },
-            ...prevTodos //if i want to add the item after i have to put all the setTodos after prevTodos
-        ])
-    }
-    function deleteTodo(id:number){
-        setTodos((prevTodos)=>prevTodos.filter(todo=>todo.id !== id));
-    }
-
-    function deleteAllcompletedTodos(){
-        setTodos((prevTodos)=>prevTodos.filter(todo=> !todo.completed));
-    }
+    }= useTodos();
 
     return (
         <main className="py-10 h-screen space-y-5 overflow-y-auto">
